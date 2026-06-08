@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "VVD5CP49u10=",
+  "success": true,
+  "projectFilePath": "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Backend/UniSync.Backend.csproj",
+  "expectedPackageFiles": [
+    "/home/tony/.nuget/packages/microsoft.aspnetcore.openapi/10.0.8/microsoft.aspnetcore.openapi.10.0.8.nupkg.sha512",
+    "/home/tony/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512",
+    "/home/tony/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.8/microsoft.aspnetcore.app.ref.10.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,6 @@
+@UniSync.Backend_HostAddress = http://localhost:5134
+
+GET {{UniSync.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

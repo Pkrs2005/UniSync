@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Project Path="UniSync.Client.Android/UniSync.Client.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="UniSync.Client.Browser/UniSync.Client.Browser.csproj" />
+  <Project Path="UniSync.Client.Desktop/UniSync.Client.Desktop.csproj" />
+  <Project Path="UniSync.Client.iOS/UniSync.Client.iOS.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="UniSync.Client/UniSync.Client.csproj" />
+</Solution>

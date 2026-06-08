@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/UniSync.Client/">
+    <Project Path="UniSync.Client/UniSync.Client.Android/UniSync.Client.Android.csproj" />
+    <Project Path="UniSync.Client/UniSync.Client.Desktop/UniSync.Client.Desktop.csproj" />
+    <Project Path="UniSync.Client/UniSync.Client/UniSync.Client.csproj" />
+  </Folder>
+  <Project Path="UniSync.Backend/UniSync.Backend.csproj" />
+  <Project Path="UniSync.Shared/UniSync.Shared.csproj" />
+</Solution>
