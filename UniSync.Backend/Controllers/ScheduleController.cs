@@ -38,7 +38,8 @@ public class ScheduleController : ControllerBase
             string icsText = await client.GetStringAsync(url);
             var calendar = Calendar.Load(icsText);
 
-            var lessons = calendar.Events
+            var events = calendar.Events ?? Enumerable.Empty<Ical.Net.CalendarComponents.CalendarEvent>();
+            var lessons = events
                 .Where(e => e.Start != null && 
                             e.Start.AsUtc.ToLocalTime().Date >= startOfWeek && 
                             e.Start.AsUtc.ToLocalTime().Date <= endOfWeek)

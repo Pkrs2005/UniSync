@@ -16,4 +16,6 @@ public class ScheduleCommit
 
     // Статус правки: "Pending" (ожидает), "Approved" (одобрено), "Rejected" (отклонено)
     public string Status { get; set; } = "Pending";
+
+    public bool IsPending => Status == "Pending";
 }

@@ -1,83 +1,24 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:UniSync.Client.ViewModels"
-             xmlns:shared="using:UniSync.Shared.Models"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="700"
+             xmlns:views="using:UniSync.Client.Views"
              x:Class="UniSync.Client.Views.MainView"
-             x:DataType="vm:ScheduleViewModel"
-             Background="#F5F5F7">
+             x:DataType="vm:MainViewModel">
+    
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="vm:LoginViewModel">
+            <views:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:RegisterViewModel">
+            <views:RegisterView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:ScheduleViewModel">
+            <views:ScheduleView />
+        </DataTemplate>
+        <DataTemplate DataType="vm:CommitsViewModel">
+            <views:CommitsView />
+        </DataTemplate>
+    </UserControl.DataTemplates>
 
-    <Grid RowDefinitions="Auto, *, Auto">
-        <Border Grid.Row="0" Background="White" Padding="15">
-            <Grid ColumnDefinitions="Auto, *, Auto">
-                <Button Grid.Column="0" Content="◀" Command="{Binding MovePreviousWeek}" Background="Transparent"/>
-                <TextBlock Grid.Column="1" Text="{Binding WeekRangeText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#1C1C1E"/>
-                <Button Grid.Column="2" Content="▶" Command="{Binding MoveNextWeek}" Background="Transparent"/>
-            </Grid>
-        </Border>
-
-        <Grid Grid.Row="1" Margin="10">
-            <ProgressBar IsIndeterminate="True" 
-                         IsVisible="{Binding IsLoading}" 
-                         VerticalAlignment="Center" 
-                         HorizontalAlignment="Center" />
-
-            <ScrollViewer VerticalScrollBarVisibility="Auto" IsVisible="{Binding !IsLoading}">
-                
-                <ItemsControl ItemsSource="{Binding GroupedLessons}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="vm:DayScheduleGroup">
-                            <StackPanel Margin="0,5,0,15">
-                                
-                                <TextBlock Text="{Binding DayHeader}" 
-                                           FontSize="15" 
-                                           FontWeight="Bold" 
-                                           Foreground="#1C1C1E" 
-                                           Margin="5,0,0,8"/>
-                                
-                                <ItemsControl ItemsSource="{Binding Lessons}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="shared:LessonDto">
-                                            <Border Background="White" CornerRadius="8" Padding="12" Margin="0,4">
-                                                <Grid ColumnDefinitions="Auto, *">
-                                                    
-                                                    <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding StartTime}" FontSize="16" FontWeight="Bold" Foreground="#007AFF"/>
-                                                        <TextBlock Text="{Binding EndTime}" FontSize="12" Foreground="#8E8E93" HorizontalAlignment="Center"/>
-                                                    </StackPanel>
-
-                                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Medium" TextWrapping="Wrap" Foreground="#1C1C1E"/>
-                                                        
-                                                        <TextBlock Text="{Binding Room}" FontSize="12" Foreground="#007AFF" Margin="0,2,0,0"
-                                                                   IsVisible="{Binding Room, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                                                        
-                                                        <TextBlock Text="{Binding Teacher}" FontSize="12" Foreground="#8E8E93" Margin="0,1,0,0"
-                                                                   IsVisible="{Binding Teacher, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                
-            </ScrollViewer>
-        </Grid>
-        
-        <Button Grid.Row="2" 
-                Content="Предложить изменение" 
-                HorizontalAlignment="Stretch" 
-                HorizontalContentAlignment="Center"
-                Background="#007AFF" 
-                Foreground="White" 
-                Margin="10" 
-                Padding="12"/>
-    </Grid>
+    <ContentControl Content="{Binding CurrentPage}" />
 </UserControl>

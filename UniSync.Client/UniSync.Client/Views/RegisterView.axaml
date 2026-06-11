@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:UniSync.Client.ViewModels"
+             x:Class="UniSync.Client.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+
+    <Grid Background="#F5F6FA">
+        <Border Margin="30" Padding="30" 
+                Background="White" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                CornerRadius="8" 
+                Width="350"
+                BoxShadow="0 4 10 0 #20000000">
+            
+            <StackPanel Spacing="15">
+                <TextBlock Text="Регистрация UniSync" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center" 
+                           Foreground="#2C3E50"/>
+                
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Логин" Foreground="#7F8C8D" FontSize="12"/>
+                    <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Придумайте логин"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Пароль" Foreground="#7F8C8D" FontSize="12"/>
+                    <TextBox Text="{Binding Password, Mode=TwoWay}" PasswordChar="*" PlaceholderText="Придумайте пароль"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="#E74C3C" 
+                           FontSize="12" 
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                <Button Content="Создать аккаунт" 
+                        Command="{Binding RegisterCommand}"
+                        Background="#2ECC71" 
+                        Foreground="White" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center"
+                        Padding="10"/>
+
+                <Button Content="Назад к авторизации" 
+                        Command="{Binding BackToLoginCommand}"
+                        Background="Transparent" 
+                        Foreground="#7F8C8D" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

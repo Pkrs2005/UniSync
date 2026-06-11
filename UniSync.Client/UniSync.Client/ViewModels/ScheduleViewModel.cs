@@ -1,81 +1,160 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using UniSync.Shared.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using UniSync.Client.Services;
+using UniSync.Shared.Models;
 
 namespace UniSync.Client.ViewModels;
 
-// 👇 Класс для группировки пар по конкретным дням
 public class DayScheduleGroup
 {
     public DateTime Date { get; set; }
-    
-    // Красивое форматирование заголовка: "Понедельник, 8 июня"
+
     public string DayHeader => CultureInfo.GetCultureInfo("ru-RU").TextInfo
         .ToTitleCase(Date.ToString("dddd, d MMMM", CultureInfo.GetCultureInfo("ru-RU")));
 
     public List<LessonDto> Lessons { get; set; } = new();
 }
 
-public class ScheduleViewModel : INotifyPropertyChanged
+public partial class ScheduleViewModel : ViewModelBase
 {
     private readonly ApiService _apiService;
-    private DateTime _currentDate;
-    private bool _isLoading;
-    private string _weekRangeText = "Загрузка...";
+    private readonly Action _navigateToCommits;
+    private readonly Action _navigateToLogin;
 
-    // 👇 Меняем плоский список Lessons на сгруппированную по дням коллекцию
-    public ObservableCollection<DayScheduleGroup> GroupedLessons { get; } = new();
-
-    public DateTime CurrentDate
+    public ScheduleViewModel(Action navigateToCommits, Action navigateToLogin)
     {
-        get => _currentDate;
-        set { _currentDate = value; OnPropertyChanged(); }
-    }
-
-    public bool IsLoading
-    {
-        get => _isLoading;
-        set { _isLoading = value; OnPropertyChanged(); }
-    }
-
-    public string WeekRangeText
-    {
-        get => _weekRangeText;
-        set { _weekRangeText = value; OnPropertyChanged(); }
-    }
-
-    public ScheduleViewModel()
-    {
-        // Предполагается, что ApiService принимает базовый URL или настроен внутри
+        _navigateToCommits = navigateToCommits;
+        _navigateToLogin = navigateToLogin;
         _apiService = new ApiService();
         _currentDate = DateTime.Today;
-        
-        // Триггерим первичную загрузку данных
+        IsModerator = AuthService.UserRole == "Moderator";
         _ = LoadScheduleAsync();
     }
 
-    // Основной метод загрузки данных с бэкенда
+    [ObservableProperty]
+    private DateTime _currentDate;
+
+    [ObservableProperty]
+    private bool _isLoading;
+
+    [ObservableProperty]
+    private string _weekRangeText = "Загрузка...";
+
+    [ObservableProperty]
+    private bool _isModerator;
+
+    [ObservableProperty]
+    private LessonDto? _selectedLesson;
+
+    [ObservableProperty]
+    private bool _isCommitPanelVisible;
+
+    [ObservableProperty]
+    private string _newTitle = string.Empty;
+
+    [ObservableProperty]
+    private string _newRoom = string.Empty;
+
+    [ObservableProperty]
+    private string _newTeacher = string.Empty;
+
+    [ObservableProperty]
+    private string _statusMessage = string.Empty;
+
+    public ObservableCollection<DayScheduleGroup> GroupedLessons { get; } = new();
+
+    [RelayCommand]
+    private async Task MoveNextWeek()
+    {
+        CurrentDate = CurrentDate.AddDays(7);
+        await LoadScheduleAsync();
+    }
+
+    [RelayCommand]
+    private async Task MovePreviousWeek()
+    {
+        CurrentDate = CurrentDate.AddDays(-7);
+        await LoadScheduleAsync();
+    }
+
+    [RelayCommand]
+    private void SelectLesson(LessonDto lesson)
+    {
+        SelectedLesson = lesson;
+        NewTitle = lesson.Title;
+        NewRoom = lesson.Room ?? string.Empty;
+        NewTeacher = lesson.Teacher ?? string.Empty;
+        IsCommitPanelVisible = true;
+        StatusMessage = string.Empty;
+    }
+
+    [RelayCommand]
+    private void CancelCommit()
+    {
+        IsCommitPanelVisible = false;
+        SelectedLesson = null;
+        StatusMessage = string.Empty;
+    }
+
+    [RelayCommand]
+    private async Task SubmitCommitAsync()
+    {
+        if (SelectedLesson == null) return;
+
+        StatusMessage = "Отправка правки...";
+
+        var commit = new ScheduleCommit
+        {
+            LessonDate = DateTime.SpecifyKind(SelectedLesson.Date.Date, DateTimeKind.Utc),
+            StartTime = SelectedLesson.StartTime,
+            OldTitle = SelectedLesson.Title,
+            NewTitle = string.IsNullOrWhiteSpace(NewTitle) ? null : NewTitle.Trim(),
+            NewRoom = string.IsNullOrWhiteSpace(NewRoom) ? null : NewRoom.Trim(),
+            NewTeacher = string.IsNullOrWhiteSpace(NewTeacher) ? null : NewTeacher.Trim()
+        };
+
+        var success = await _apiService.CreateCommitAsync(commit);
+        if (success)
+        {
+            StatusMessage = "Правка отправлена на модерацию!";
+            IsCommitPanelVisible = false;
+            SelectedLesson = null;
+            return;
+        }
+
+        StatusMessage = "Ошибка отправки. Проверьте, что сервер запущен.";
+    }
+
+    [RelayCommand]
+    private void OpenModeration()
+    {
+        _navigateToCommits();
+    }
+
+    [RelayCommand]
+    private void Logout()
+    {
+        AuthService.ClearSession();
+        _navigateToLogin();
+    }
+
     public async Task LoadScheduleAsync()
     {
         IsLoading = true;
         var response = await _apiService.GetScheduleAsync(CurrentDate);
-        
-        // Очищаем старое расписание перед заполнением новой недели
+
         GroupedLessons.Clear();
 
         if (response != null)
         {
             WeekRangeText = $"{response.StartOfWeek:dd.MM} — {response.EndOfWeek:dd.MM}";
-            
-            // 👇 МАГИЯ LINQ: Группируем пары по дате дня, сортируем дни по хронологии, 
-            // а пары внутри каждого дня — по времени начала.
+
             var sortedGroups = response.Lessons
                 .GroupBy(l => l.Date.Date)
                 .Select(g => new DayScheduleGroup
@@ -85,7 +164,6 @@ public class ScheduleViewModel : INotifyPropertyChanged
                 })
                 .OrderBy(g => g.Date);
 
-            // Наполняем ObservableCollection для автоматического обновления интерфейса
             foreach (var group in sortedGroups)
             {
                 GroupedLessons.Add(group);
@@ -95,26 +173,7 @@ public class ScheduleViewModel : INotifyPropertyChanged
         {
             WeekRangeText = "Ошибка загрузки";
         }
+
         IsLoading = false;
-    }
-
-    // Методы для кнопок "Вперед" и "Назад" в UI
-    public async Task MoveNextWeek()
-    {
-        CurrentDate = CurrentDate.AddDays(7);
-        await LoadScheduleAsync();
-    }
-
-    public async Task MovePreviousWeek()
-    {
-        CurrentDate = CurrentDate.AddDays(-7);
-        await LoadScheduleAsync();
-    }
-
-    // Реализация интерфейса для обновления UI при изменении свойств
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

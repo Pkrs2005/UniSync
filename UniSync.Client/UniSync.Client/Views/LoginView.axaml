@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:UniSync.Client.ViewModels"
+             x:Class="UniSync.Client.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+    <Grid Background="#F5F6FA">
+        <Border Margin="30" Padding="30" 
+                Background="White" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center"
+                CornerRadius="8" 
+                Width="350"
+                BoxShadow="0 4 10 0 #20000000">
+            
+            <StackPanel Spacing="15">
+                <TextBlock Text="Авторизация UniSync" 
+                           FontSize="20" 
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center" 
+                           Foreground="#2C3E50"/>
+                
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Логин" Foreground="#7F8C8D" FontSize="12"/>
+                    <TextBox Text="{Binding Username, Mode=TwoWay}" PlaceholderText="Введите логин"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="Пароль" Foreground="#7F8C8D" FontSize="12"/>
+                    <TextBox Text="{Binding Password, Mode=TwoWay}" PasswordChar="*" PlaceholderText="Введите пароль"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding StatusMessage}" 
+                           Foreground="#E74C3C" 
+                           FontSize="12" 
+                           HorizontalAlignment="Center"
+                           TextWrapping="Wrap"
+                           IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                <Button Content="Войти" 
+                        Command="{Binding LoginCommand}"
+                        Background="#007ACC" 
+                        Foreground="White" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center"
+                        Padding="10"/>
+
+                <Button Content="Зарегистрироваться" 
+                        Command="{Binding RegisterCommand}"
+                        Background="Transparent" 
+                        Foreground="#007ACC" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

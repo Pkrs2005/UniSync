@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniSync.Backend.Data;
@@ -37,6 +38,7 @@ public class CommitController : ControllerBase
     // 3. Изменить статус правки (Одобрить/Отклонить — действие старосты)
     // Пример запроса: PUT /api/commit/5/status?status=Approved
     [HttpPut("{id}/status")]
+    [Authorize(Roles = "Moderator")]
     public async Task<IActionResult> UpdateStatus(int id, [FromQuery] string status)
     {
         if (status != "Approved" && status != "Rejected")

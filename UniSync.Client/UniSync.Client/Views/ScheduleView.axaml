@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:UniSync.Client.ViewModels"
+             xmlns:shared="using:UniSync.Shared.Models"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="700"
+             x:Class="UniSync.Client.Views.ScheduleView"
+             x:DataType="vm:ScheduleViewModel"
+             Background="#F5F5F7">
+
+    <Grid RowDefinitions="Auto, *, Auto, Auto">
+        <Border Grid.Row="0" Background="White" Padding="15">
+            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                <Button Grid.Column="0" Content="◀" Command="{Binding MovePreviousWeekCommand}" Background="Transparent"/>
+                <TextBlock Grid.Column="1" Text="{Binding WeekRangeText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#1C1C1E"/>
+                <Button Grid.Column="2" Content="▶" Command="{Binding MoveNextWeekCommand}" Background="Transparent"/>
+                <Button Grid.Column="3" Content="Выход" Command="{Binding LogoutCommand}" Background="Transparent" Foreground="#FF3B30" Margin="8,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="10">
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto" IsVisible="{Binding !IsLoading}">
+                <ItemsControl ItemsSource="{Binding GroupedLessons}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:DayScheduleGroup">
+                            <StackPanel Margin="0,5,0,15">
+                                <TextBlock Text="{Binding DayHeader}" FontSize="15" FontWeight="Bold" Foreground="#1C1C1E" Margin="5,0,0,8"/>
+                                <ItemsControl ItemsSource="{Binding Lessons}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="shared:LessonDto">
+                                            <Button Command="{Binding $parent[UserControl].((vm:ScheduleViewModel)DataContext).SelectLessonCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Background="Transparent"
+                                                    HorizontalAlignment="Stretch"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    Padding="0"
+                                                    Margin="0,4">
+                                                <Border Background="White" CornerRadius="8" Padding="12">
+                                                    <Grid ColumnDefinitions="Auto, *">
+                                                        <StackPanel Grid.Column="0" Margin="0,0,15,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding StartTime}" FontSize="16" FontWeight="Bold" Foreground="#007AFF"/>
+                                                            <TextBlock Text="{Binding EndTime}" FontSize="12" Foreground="#8E8E93" HorizontalAlignment="Center"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Medium" TextWrapping="Wrap" Foreground="#1C1C1E"/>
+                                                            <TextBlock Text="{Binding Room}" FontSize="12" Foreground="#007AFF" Margin="0,2,0,0" IsVisible="{Binding Room, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                                            <TextBlock Text="{Binding Teacher}" FontSize="12" Foreground="#8E8E93" Margin="0,1,0,0" IsVisible="{Binding Teacher, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+        <Border Grid.Row="2" Background="White" Padding="15" IsVisible="{Binding IsCommitPanelVisible}"
+                BoxShadow="0 -2 8 0 #20000000">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Предложить изменение" FontWeight="Bold" FontSize="15"/>
+                <TextBlock Text="Нажмите на пару в списке, измените поля и отправьте на модерацию." FontSize="11" Foreground="#8E8E93"/>
+                <TextBox PlaceholderText="Новое название" Text="{Binding NewTitle, Mode=TwoWay}"/>
+                <TextBox PlaceholderText="Новая аудитория" Text="{Binding NewRoom, Mode=TwoWay}"/>
+                <TextBox PlaceholderText="Новый преподаватель" Text="{Binding NewTeacher, Mode=TwoWay}"/>
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                    <Button Grid.Column="0" Content="Отмена" Command="{Binding CancelCommitCommand}" Background="#E5E5EA"/>
+                    <Button Grid.Column="1" Content="Отправить" Command="{Binding SubmitCommitCommand}" Background="#007AFF" Foreground="White"/>
+                </Grid>
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#34C759" FontSize="12"
+                           IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            </StackPanel>
+        </Border>
+        
+        <StackPanel Grid.Row="3" Margin="10" Spacing="8">
+            <Button Content="Модерация правок" Command="{Binding OpenModerationCommand}"
+                    IsVisible="{Binding IsModerator}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                    Background="#5856D6" Foreground="White" Padding="12"/>
+            <TextBlock Text="Нажмите на пару, чтобы предложить изменение" FontSize="11" Foreground="#8E8E93"
+                       HorizontalAlignment="Center" Margin="0,0,0,4"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
