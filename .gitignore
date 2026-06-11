@@ -1,0 +1,38 @@
+## --- [ Ядро .NET и компиляция ] ---
+BaseIntermediateOutputPath/
+IntermediateOutputPath/
+_ReSharper*/
+[Bb]in/
+[Oo]bj/
+[Log]/
+    
+## --- [ Конфиденциальные данные и локальные настройки ] ---
+.env
+*.user
+*.userosscache
+*.suo
+*.userprefs
+appsettings.Local.json
+    
+## --- [ IDE: JetBrains Rider / IntelliJ ] ---
+.idea/
+*.sln.iml
+    
+## --- [ IDE: Visual Studio Code ] ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+    
+## --- [ ОС / Системный мусор ] ---
+.DS_Store
+Thumbs.db
+desktop.ini
+    
+## --- [ Контейнеры и Docker ] ---
+.dockerignore
+# Если в docker-compose используются локальные волюмы с данными БД:
+pgdata/
+postgres_data/
