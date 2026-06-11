@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x03Ox4nS8Pg=",
+  "dgSpecHash": "o2kkedDnid8=",
   "success": true,
-  "projectFilePath": "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
+  "projectFilePath": "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
   "expectedPackageFiles": [
     "/home/tony/.nuget/packages/microsoft.aspnetcore.app.ref/10.0.8/microsoft.aspnetcore.app.ref.10.0.8.nupkg.sha512"
   ],

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  unisync-db:
+    image: postgres:15-alpine
+    container_name: unisync-db
+    environment:
+      POSTGRES_USER: unisync_user
+      POSTGRES_PASSWORD: unisync_password
+      POSTGRES_DB: unisync_metadata
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

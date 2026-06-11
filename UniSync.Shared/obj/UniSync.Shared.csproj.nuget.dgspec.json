@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj": {}
+    "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj": {}
   },
   "projects": {
-    "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj": {
+    "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
+        "projectUniqueName": "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
         "projectName": "UniSync.Shared",
-        "projectPath": "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
+        "projectPath": "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/UniSync.Shared.csproj",
         "packagesPath": "/home/tony/.nuget/packages/",
-        "outputPath": "/home/tony/Documents/SFEDU/PIRIS mine/2 semmestr/programs/UniSync/UniSync.Shared/obj/",
+        "outputPath": "/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/tony/.nuget/NuGet/NuGet.Config"

@@ -1,0 +1,12 @@
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/bin/Debug/net10.0/UniSync.Shared.deps.json
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/bin/Debug/net10.0/UniSync.Shared.dll
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/bin/Debug/net10.0/UniSync.Shared.pdb
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.AssemblyInfoInputs.cache
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.AssemblyInfo.cs
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.csproj.CoreCompileInputs.cache
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.sourcelink.json
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.dll
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/refint/UniSync.Shared.dll
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/UniSync.Shared.pdb
+/home/tony/Documents/SFEDU/PIRISmine/2semmestr/programs/UniSync/UniSync.Shared/obj/Debug/net10.0/ref/UniSync.Shared.dll
